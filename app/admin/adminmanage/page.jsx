@@ -17,7 +17,7 @@ const Page = () => {
         <div className="flex flex-col items-center justify-center min-h-screen px-12">
             {/* Heading at the top */}
             <h1 className="text-[35px] font-bold text-[#5C4A3A] mb-12">
-                Admin Manage
+                Waiting for the product
             </h1>
 
             {/* Centered loading spinner */}

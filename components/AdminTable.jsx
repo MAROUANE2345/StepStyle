@@ -2,15 +2,25 @@
 import React, { useState } from "react";
 import { FaTrash, FaEdit, FaEye } from "react-icons/fa";
 import DeletePopUp from "./deletePopUp";
+import EditPopUp from "./editProduct";
 
 const AdminTable = ({ products }) => {
   const [deletePopUp, setDeletePopUp] = useState(false);
+  const [editPopUp, setEditPopUp] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const stopEditPopUp = () => {
+    setEditPopUp(false);
+  };
   const [id, setId] = useState("");
 
   const handleDeleteOnclick = (id) => {
     setDeletePopUp(true);
     setId(id);
   };
+  const handleEditOnClick = (product) => {
+    setEditPopUp(true);
+    setSelectedProduct(product);
+  }
   const stopPopUp = () => {
     setDeletePopUp(false);
   }
@@ -66,6 +76,7 @@ const AdminTable = ({ products }) => {
                   </button>
 
                   <button
+                  onClick={()=>handleEditOnClick(product)}
                     className="rounded-md bg-[#8b6b4a] p-2 hover:bg-[#75573c]"
                     title="Edit"
                   >
@@ -88,6 +99,10 @@ const AdminTable = ({ products }) => {
 
       {deletePopUp && (
         <DeletePopUp id={id} onClose={stopPopUp} />
+      )}
+
+      {editPopUp && (
+        <EditPopUp onClose={stopEditPopUp} product={selectedProduct} />
       )}
     </div>
   );
