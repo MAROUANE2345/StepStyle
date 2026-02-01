@@ -5,6 +5,7 @@ import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/lib/reducer/cartSlice";
 import { deleteFromLiked } from "@/lib/reducer/wishListSlice";
+import Link from "next/link";
 
 const LikedCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -53,22 +54,31 @@ const LikedCard = ({ product }) => {
       </p>
 
       {/* Price + Basket */}
-      <div className="flex items-center justify-between mt-2">
-        <span
-          className="text-xl font-extrabold"
-          style={{ color: "#8B7355" }}
-        >
+      <div className="flex items-center justify-between mt-auto gap-3">
+        <span className="text-xl font-extrabold text-[#8B7355]">
           ${product.price}
         </span>
 
+        <Link
+          href={`/products/${product.id}`}
+          className="flex-1 text-center text-[#8B7355] text-sm font-medium py-2 rounded-md border transition-colors hover:bg-[#8B7355] hover:text-white"
+          style={{
+            borderColor: '#8B7355',
+             
+          }}
+        >
+          View Details
+        </Link>
+
         <button
           className="w-10 h-10 flex items-center justify-center rounded-full"
-          style={{ backgroundColor: "#8B7355" }}
+          style={{ backgroundColor: '#8B7355' }}
           onClick={() => dispatch(addToCart(product))}
         >
           <FaShoppingCart className="text-white cursor-pointer" />
         </button>
       </div>
+
     </div>
   );
 };

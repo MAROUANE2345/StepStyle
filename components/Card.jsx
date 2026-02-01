@@ -5,19 +5,18 @@ import { addToWishList } from '@/lib/reducer/wishListSlice';
 import React, { useState, useEffect } from 'react';
 import { FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 
 const Card = ({ product }) => {
   const dispatch = useDispatch();
-  const wishList = useSelector((state) => state.like.Liked); // get current wishlist
+  const wishList = useSelector((state) => state.like.Liked);
   const [liked, setLiked] = useState(false);
 
-  // Check if this product is already in the wishlist
   useEffect(() => {
     const isLiked = wishList.find((item) => item.id === product.id);
     setLiked(!!isLiked);
   }, [wishList, product.id]);
 
-  // Toggle like
   const handleLike = () => {
     setLiked(!liked);
     dispatch(addToWishList(product));
@@ -37,10 +36,10 @@ const Card = ({ product }) => {
       <button
         onClick={handleLike}
         className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-white shadow cursor-pointer"
-        style={{ borderColor: "#E8DCC8" }}
       >
         <FaHeart
-          className={`text-lg transition-colors ${liked ? 'text-red-500' : 'text-gray-400'}`}
+          className={`text-lg transition-colors ${liked ? 'text-red-500' : 'text-gray-400'
+            }`}
         />
       </button>
 
@@ -54,20 +53,34 @@ const Card = ({ product }) => {
       </div>
 
       {/* Name */}
-      <h3 className="text-[23px] font-bold" style={{ color: '#5C4A3A' }}>
+      <h3 className="text-[23px] font-bold text-[#5C4A3A]">
         {product.name}
       </h3>
 
       {/* Description */}
-      <p className="text-sm leading-snug" style={{ color: '#8B7355' }}>
+      <p className="text-sm leading-snug text-[#8B7355]">
         {product.description}
       </p>
 
+
+
       {/* Price + Basket */}
-      <div className="flex items-center justify-between mt-2">
-        <span className="text-xl font-extrabold" style={{ color: '#8B7355' }}>
+      {/* Price + View Details + Basket */}
+      <div className="flex items-center justify-between mt-auto gap-3">
+        <span className="text-xl font-extrabold text-[#8B7355]">
           ${product.price}
         </span>
+
+        <Link
+          href={`/products/${product.id}`}
+          className="flex-1 text-center text-[#8B7355] text-sm font-medium py-2 rounded-md border transition-colors hover:bg-[#8B7355] hover:text-white"
+          style={{
+            borderColor: '#8B7355',
+             
+          }}
+        >
+          View Details
+        </Link>
 
         <button
           className="w-10 h-10 flex items-center justify-center rounded-full"
@@ -77,6 +90,7 @@ const Card = ({ product }) => {
           <FaShoppingCart className="text-white cursor-pointer" />
         </button>
       </div>
+
     </div>
   );
 };

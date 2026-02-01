@@ -1,16 +1,46 @@
 "use client";
 
-import React from "react";
-import { useSelector } from "react-redux";
-
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios"
+import { sendEmail } from "@/lib/reducer/emailSendSlice";
 const Page = () => {
-  const cart = useSelector((state) => state.cart.cart || []);
+  const cart = useSelector((state) => state.cart.cart);
+  const totalPrice = useSelector((state) => state.cart.Price);
+  const dispatch = useDispatch();
+  const [name,setName] = useState("")
+  const [email,setEmail] = useState("")
+  const [phone,setPhone] = useState("")
+  const [city,setCity] = useState("")
+  const [address,setAddress] = useState("")
+  const [orderInfo,setOrderInfo] = useState([
+   
+  ])
 
-  const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+   useEffect(() => {
+    const products = cart.map((item) => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      total: item.price * item.quantity,
+    }));
 
+    setOrderInfo(products);
+  }, [cart]);
+
+  const handleOrder = () => {
+      axios.post("https://69733ee0b5f46f8b58269eb8.mockapi.io/order", {
+        name : name,
+        email : email,
+        phone : phone,
+        city : city,
+        address : address,
+        totalPrice : totalPrice,
+        orderInfo : orderInfo
+      });
+      dispatch(sendEmail({ name, email, city, phone, address, totalPrice, orderInfo }));
+  }
   return (
     <div className="px-60 py-12 bg-[#F5F0E8] min-h-screen">
       {/* Title */}
@@ -35,6 +65,7 @@ const Page = () => {
               </label>
               <input
                 type="text"
+                onChange={(e)=>setName(e.target.value)}
                 placeholder="John Doe"
                 className="w-full h-12 px-4 border rounded-md outline-none"
                 style={{ borderColor: "#E8DCC8" }}
@@ -47,6 +78,7 @@ const Page = () => {
               </label>
               <input
                 type="email"
+                onChange={(e)=>setEmail(e.target.value)}
                 placeholder="john@email.com"
                 className="w-full h-12 px-4 border rounded-md outline-none"
                 style={{ borderColor: "#E8DCC8" }}
@@ -59,6 +91,7 @@ const Page = () => {
               </label>
               <input
                 type="text"
+                onChange={(e)=>setPhone(e.target.value)}
                 placeholder="+212 6XX XX XX XX"
                 className="w-full h-12 px-4 border rounded-md outline-none"
                 style={{ borderColor: "#E8DCC8" }}
@@ -71,6 +104,7 @@ const Page = () => {
               </label>
               <input
                 type="text"
+                onChange={(e)=>setCity(e.target.value)}
                 placeholder="Casablanca"
                 className="w-full h-12 px-4 border rounded-md outline-none"
                 style={{ borderColor: "#E8DCC8" }}
@@ -84,10 +118,33 @@ const Page = () => {
             </label>
             <textarea
               rows={4}
+              onChange={(e)=>setAddress(e.target.value)}
               placeholder="Street, building, apartment..."
               className="w-full px-4 py-3 border rounded-md outline-none resize-none"
               style={{ borderColor: "#E8DCC8" }}
             />
+          </div>
+
+          {/* ✅ BUTTON MOVED HERE */}
+          <div className="mt-10">
+            <button
+              onClick={handleOrder}
+              disabled={cart.length === 0}
+              className="
+                w-full h-14
+                bg-[#8B7355]
+                text-white
+                font-bold
+                text-lg
+                rounded-md
+                hover:opacity-90
+                transition
+                disabled:opacity-50
+                disabled:cursor-not-allowed
+              "
+            >
+              Confirm & Place Order
+            </button>
           </div>
         </div>
 
@@ -100,11 +157,8 @@ const Page = () => {
             Order Summary
           </h2>
 
-          {/* Cart Items */}
           {cart.length === 0 ? (
-            <p className="text-[#8B7355]">
-              Your cart is empty
-            </p>
+            <p className="text-[#8B7355]">Your cart is empty</p>
           ) : (
             <div className="space-y-4">
               {cart.map((item) => (
@@ -113,14 +167,12 @@ const Page = () => {
                   className="flex items-center gap-4 p-4 rounded-md"
                   style={{ backgroundColor: "#F5F0E8" }}
                 >
-                  {/* Product Image */}
                   <img
                     src={item.img}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded-md bg-white"
                   />
 
-                  {/* Product Info */}
                   <div className="flex-1">
                     <p className="font-bold text-[#5C4A3A]">
                       {item.name}
@@ -130,7 +182,6 @@ const Page = () => {
                     </p>
                   </div>
 
-                  {/* Price */}
                   <span className="font-bold text-[#8B7355]">
                     ${item.price * item.quantity}
                   </span>
@@ -155,13 +206,17 @@ const Page = () => {
             </span>
           </div>
 
-          {/* Button */}
-          <button
-            disabled={cart.length === 0}
-            className="w-full h-14 rounded-md bg-[#8B7355] text-white font-bold text-lg hover:opacity-90 transition disabled:opacity-50"
-          >
-            Place Order
-          </button>
+          {/* ✅ TEXTS STAY HERE */}
+          <div className="space-y-3">
+            <p className="text-sm text-[#8B7355] text-center">
+              By confirming your order, you agree to our terms and conditions.
+            </p>
+
+            <div className="flex items-center justify-center gap-2 text-xs text-[#8B7355]">
+              <span>🔒</span>
+              <span>Secure checkout</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

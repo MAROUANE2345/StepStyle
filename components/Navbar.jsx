@@ -111,7 +111,7 @@ const Navbar = () => {
             size={18}
             style={{ color: "#5C4A3A" }}
             className="cursor-pointer"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/admin")}
           />
         </div>
       </div>

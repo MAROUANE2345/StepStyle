@@ -29,7 +29,7 @@ const Page = () => {
   });
 
   return (
-    <div className="p-6 px-60">
+    <div className="p-6 px-60 bg-[#FAF7F2] h-full min-h-screen">
       {/* Header */}
       <h1 className="text-[36px] font-bold text-[#5C4A3A] mb-6">
         Wishlist
@@ -59,7 +59,7 @@ const Page = () => {
               key={btn}
               className="px-4 h-[52px] font-medium rounded-md transition-colors duration-200 cursor-pointer"
               style={{
-                backgroundColor: filter === btn ? "#8B7355" : "#F5F0E8",
+                backgroundColor: filter === btn ? "#8B7355" : "#EFE6DA",
                 color: filter === btn ? "white" : "#5C4A3A",
                 borderRadius: "8px",
               }}
