@@ -1,14 +1,16 @@
 'use client';
 
 import { addToCart } from '@/lib/reducer/cartSlice';
-import { addToWishList } from '@/lib/reducer/wishListSlice';
+import { addToWishList, deleteFromLiked } from '@/lib/reducer/wishListSlice';
 import React, { useState, useEffect } from 'react';
 import { FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Card = ({ product }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const wishList = useSelector((state) => state.like.Liked);
   const [liked, setLiked] = useState(false);
 
@@ -19,7 +21,12 @@ const Card = ({ product }) => {
 
   const handleLike = () => {
     setLiked(!liked);
-    dispatch(addToWishList(product));
+    if(liked == true){
+        dispatch(deleteFromLiked(product));
+    }else if(liked == false){
+        dispatch(addToWishList(product));
+    }
+    
   };
 
   return (
@@ -71,8 +78,8 @@ const Card = ({ product }) => {
           ${product.price}
         </span>
 
-        <Link
-          href={`/products/${product.id}`}
+        <button
+          onClick={() =>router.push(`/detail/${product.id}`)}
           className="flex-1 text-center text-[#8B7355] text-sm font-medium py-2 rounded-md border transition-colors hover:bg-[#8B7355] hover:text-white"
           style={{
             borderColor: '#8B7355',
@@ -80,7 +87,7 @@ const Card = ({ product }) => {
           }}
         >
           View Details
-        </Link>
+        </button>
 
         <button
           className="w-10 h-10 flex items-center justify-center rounded-full"

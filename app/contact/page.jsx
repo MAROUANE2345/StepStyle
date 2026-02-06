@@ -1,7 +1,20 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { sendEmailContact } from "@/lib/reducer/emailSendSlice";
 
 const Page = () => {
+  const dispatch = useDispatch();
+  const [contactObject, setContactObject] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  })
+  
+
+
   return (
     <div className="min-h-screen bg-[#FAF7F2] px-6 py-20">
       <div className="mx-auto max-w-6xl">
@@ -19,31 +32,47 @@ const Page = () => {
             </h2>
 
             <div className="space-y-6">
-              {[
-                { label: "Name", placeholder: "Your name", type: "text" },
-                {
-                  label: "Email",
-                  placeholder: "your@email.com",
-                  type: "email",
-                },
-                {
-                  label: "Subject",
-                  placeholder: "How can we help?",
-                  type: "text",
-                },
-              ].map((field, i) => (
-                <div key={i}>
-                  <label className="mb-2 block text-sm font-medium text-[#6B5B4A]">
-                    {field.label}
-                  </label>
-                  <input
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className="w-full rounded-lg border border-[#E6D9C8] px-4 py-3 text-sm outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
-                  />
-                </div>
-              ))}
+              {/* Name */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-[#6B5B4A]">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  
+                  placeholder="Your name"
+                  className="w-full rounded-lg border border-[#E6D9C8] px-4 py-3 text-sm outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                  onChange={(e) => setContactObject({...contactObject, name: e.target.value})}
+                />
+              </div>
 
+              {/* Email */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-[#6B5B4A]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  onChange={(e) => setContactObject({...contactObject, email: e.target.value})}
+                  className="w-full rounded-lg border border-[#E6D9C8] px-4 py-3 text-sm outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                />
+              </div>
+
+              {/* Subject */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-[#6B5B4A]">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  placeholder="How can we help?"
+                  onChange={(e) => setContactObject({...contactObject, subject: e.target.value})}
+                  className="w-full rounded-lg border border-[#E6D9C8] px-4 py-3 text-sm outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                />
+              </div>
+
+             
               <div>
                 <label className="mb-2 block text-sm font-medium text-[#6B5B4A]">
                   Message
@@ -51,11 +80,17 @@ const Page = () => {
                 <textarea
                   rows={5}
                   placeholder="Your message..."
+                  onChange={(e) => setContactObject({...contactObject, message: e.target.value})}
                   className="w-full resize-none rounded-lg border border-[#E6D9C8] px-4 py-3 text-sm outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
                 />
               </div>
 
-              <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#8B7355] py-3 text-sm font-semibold text-white transition hover:bg-[#7A6349] active:scale-[0.98]">
+              <button
+                onClick={() =>
+                  dispatch(sendEmailContact(contactObject))
+                }
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#8B7355] py-3 text-sm font-semibold text-white transition hover:bg-[#7A6349] active:scale-[0.98]"
+              >
                 <Send size={16} />
                 Send Message
               </button>
@@ -94,10 +129,7 @@ const Page = () => {
                     {card.title}
                   </p>
                   {card.lines.map((line, j) => (
-                    <p
-                      key={j}
-                      className="text-sm text-[#7A6A58]"
-                    >
+                    <p key={j} className="text-sm text-[#7A6A58]">
                       {line}
                     </p>
                   ))}

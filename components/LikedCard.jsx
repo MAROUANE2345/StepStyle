@@ -6,9 +6,11 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/lib/reducer/cartSlice";
 import { deleteFromLiked } from "@/lib/reducer/wishListSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const LikedCard = ({ product }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
     <div
@@ -59,8 +61,8 @@ const LikedCard = ({ product }) => {
           ${product.price}
         </span>
 
-        <Link
-          href={`/products/${product.id}`}
+       <button
+          onClick={() =>router.push(`/detail/${product.id}`)}
           className="flex-1 text-center text-[#8B7355] text-sm font-medium py-2 rounded-md border transition-colors hover:bg-[#8B7355] hover:text-white"
           style={{
             borderColor: '#8B7355',
@@ -68,7 +70,7 @@ const LikedCard = ({ product }) => {
           }}
         >
           View Details
-        </Link>
+        </button>
 
         <button
           className="w-10 h-10 flex items-center justify-center rounded-full"

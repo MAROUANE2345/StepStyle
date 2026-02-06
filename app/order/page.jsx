@@ -17,6 +17,7 @@ const Page = () => {
    
   ])
 
+
    useEffect(() => {
     const products = cart.map((item) => ({
       id: item.id,
@@ -26,8 +27,10 @@ const Page = () => {
       total: item.price * item.quantity,
     }));
 
+    
     setOrderInfo(products);
   }, [cart]);
+  
 
   const handleOrder = () => {
       axios.post("https://69733ee0b5f46f8b58269eb8.mockapi.io/order", {
