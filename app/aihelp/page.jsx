@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
+import Card from "@/components/Card";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Page = () => {
   const [input, setInput] = useState("");
@@ -50,101 +52,78 @@ const Page = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F1E8] to-[#E8DCC8] p-8">
-      <div className="max-w-2xl mx-auto">
-        {/* Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-[#5C4A3A] mb-4">
-            🔍 AI Shoe Assistant
-          </h1>
-          <p className="text-lg text-[#8B7355]">
-            Tell us what you need, we'll find the perfect shoes for you.
-          </p>
-        </div>
+    <div className="p-6 px-60 bg-[#FAF7F2] min-h-screen">
+      {/* Header */}
+      <h1 className="text-[36px] font-bold text-[#5C4A3A] mb-6">
+        🔍 AI Shoe Assistant
+      </h1>
 
-        {/* Search Bar */}
-        <div className="flex gap-2 mb-8">
+      {/* Search Bar */}
+      <div className="flex items-center gap-4 mb-8">
+        <div className="relative flex-1">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+            <FaSearch />
+          </span>
           <input
             type="text"
-            placeholder="e.g., 'comfortable running shoes for men'"
+            placeholder="e.g. comfortable running shoes for men"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            className="flex-1 h-14 px-5 rounded-lg border-2 outline-none text-[#5C4A3A] placeholder-[#A89080]"
-            style={{ borderColor: "#D4C5B0" }}
+            className="w-full pl-12 pr-4 h-[52px] border rounded-md outline-none"
+            style={{ borderColor: "#E8DCC8", borderRadius: "8px" }}
           />
-          <button
-            onClick={handleSearch}
-            disabled={loading}
-            className="h-14 px-8 bg-[#8B7355] text-white rounded-lg font-semibold hover:bg-[#6B5345] disabled:opacity-50 transition flex items-center gap-2"
-          >
-            <FaSearch /> Search
-          </button>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="text-center py-12">
-            <p className="text-lg text-[#8B7355] animate-pulse">
-              ⏳ AI is thinking...
-            </p>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && (
-          <div className="bg-red-100 border-2 border-red-400 text-red-700 px-6 py-4 rounded-lg mb-8">
-            <p>{error}</p>
-          </div>
-        )}
-
-        {/* Results */}
-        {!loading && results.length > 0 && (
-          <div className="grid gap-6">
-            {results.map((shoe, index) => (
-              <div
-                key={shoe.id || index}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition border-2"
-                style={{ borderColor: "#E8DCC8" }}
-              >
-                {shoe.image && (
-                  <img
-                    src={shoe.image}
-                    alt={shoe.name}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-[#5C4A3A] mb-2">
-                    {shoe.name}
-                  </h3>
-                  <p className="text-sm text-[#8B7355] mb-3">
-                    {shoe.category} • {shoe.sexe}
-                  </p>
-                  <p className="text-[#6B5345] mb-4">{shoe.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-[#8B7355]">
-                      ${shoe.price}
-                    </span>
-                    <div className="text-sm text-[#8B7355]">
-                      <p className="font-semibold">Sizes: {shoe.size.join(", ")}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* No Results Message */}
-        {!loading && hasSearched && results.length === 0 && !error && (
-          <div className="text-center py-12">
-            <p className="text-lg text-[#8B7355]">
-              👟 No shoes matched your request. Try different keywords!
-            </p>
-          </div>
-        )}
+        <button
+          onClick={handleSearch}
+          disabled={loading}
+          className="h-[52px] px-6 bg-[#8B7355] text-white rounded-md font-medium hover:bg-[#6B5345] disabled:opacity-50 transition"
+        >
+          Search
+        </button>
       </div>
+
+      {/* Loading */}
+      {loading && (
+        <p className="text-center text-[#8B7355] py-10 animate-pulse">
+          ⏳ AI is thinking...
+        </p>
+      )}
+
+      {/* Error */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-md mb-6">
+          {error}
+        </div>
+      )}
+
+      {/* Results Grid — SAME AS COLLECTION PAGE */}
+      {!loading && results.length > 0 && (
+        <div className="grid grid-cols-4 gap-1">
+          <AnimatePresence>
+            {results.map((shoe) => (
+              <motion.div
+                key={shoe.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Card product={shoe} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
+
+      {/* No Results */}
+      {!loading && hasSearched && results.length === 0 && !error && (
+        <p className="text-center text-[#8B7355] py-10">
+          👟 No shoes matched your request. Try different keywords!
+        </p>
+      )}
     </div>
   );
 };

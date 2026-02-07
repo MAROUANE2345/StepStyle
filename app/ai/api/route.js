@@ -39,7 +39,7 @@ export async function POST(req) {
         (shoe) =>
           `{"id":"${shoe.id}","name":"${shoe.name}","category":"${shoe.category}","price":${shoe.price},"sexe":"${shoe.sexe}","size":${JSON.stringify(
             shoe.size
-          )},"description":"${shoe.description.replace(/"/g, '\\"')}","image":"${shoe.image}"}`
+          )},"description":"${shoe.description.replace(/"/g, '\\"')}","img":"${shoe.img}"}`
       )
       .join("\n");
 
@@ -68,7 +68,7 @@ JSON FORMAT:
     "sexe": "",
     "size": [],
     "description": "",
-    "image": ""
+    "img": ""
   }
 ]
 `;
@@ -79,7 +79,7 @@ JSON FORMAT:
     let geminiData;
     try {
       const geminiRes = await axios.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`,
         {
           contents: [{ parts: [{ text: prompt }] }],
         },
