@@ -35,16 +35,18 @@ const Page = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen text-[#7A6A58] text-lg">
-        Loading...
+      <div className="flex flex-col justify-center items-center min-h-[60vh] gap-4 px-4">
+        <div className="w-10 h-10 border-2 border-[#8B7355] border-t-transparent rounded-full animate-spin" />
+        <p className="text-[#7A6A58] text-sm sm:text-base">Loading...</p>
       </div>
     );
   }
 
   if (!shoe) {
     return (
-      <div className="flex justify-center items-center h-screen text-red-500 text-lg">
-        Shoe not found!
+      <div className="flex flex-col justify-center items-center min-h-[60vh] gap-2 px-4 text-center">
+        <p className="text-red-500 text-base sm:text-lg font-medium">Shoe not found</p>
+        <a href="/catalogue" className="text-[#8B7355] underline hover:no-underline text-sm">Back to catalogue</a>
       </div>
     );
   }
@@ -60,38 +62,32 @@ const Page = () => {
       };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FAF7F2] to-[#EFE6D8] px-6 py-16 flex justify-center items-start">
-      {/* Main Card */}
-      <div className="max-w-5xl w-full bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden hover:shadow-3xl transition-shadow duration-300">
-        {/* IMAGE SECTION */}
-        <div className="md:flex-1 relative overflow-hidden rounded-t-3xl md:rounded-l-3xl">
+    <div className="min-h-screen bg-gradient-to-b from-[#FAF7F2] to-[#EFE6D8] px-4 sm:px-6 py-6 sm:py-10 md:py-16 flex justify-center items-start">
+      <div className="max-w-5xl w-full bg-white rounded-2xl sm:rounded-3xl shadow-xl flex flex-col md:flex-row overflow-hidden transition-shadow duration-300">
+        {/* IMAGE */}
+        <div className="md:flex-1 relative overflow-hidden rounded-t-2xl sm:rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none aspect-square md:aspect-auto md:min-h-[400px]">
           <img
-            src={shoe.img || 'https://via.placeholder.com/400'}
+            src={shoe.img || "https://via.placeholder.com/400"}
             alt={shoe.name}
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
           />
-          {/* Like Button */}
           <button
-           onClick={handleLike}
-            className={`absolute top-4 right-4 w-12 h-12 flex justify-center items-center rounded-full border shadow-md transition hover:scale-110 ${
-              liked
-                ? 'bg-red-500 text-white border-red-500'
-                : 'bg-white text-[#7A6A58] border-[#E6D9C8] hover:bg-[#F6EFE6]'
+            type="button"
+            onClick={handleLike}
+            className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-11 h-11 sm:w-12 sm:h-12 flex justify-center items-center rounded-full border shadow-md transition hover:scale-110 ${
+              liked ? "bg-red-500 text-white border-red-500" : "bg-white text-[#7A6A58] border-[#E6D9C8] hover:bg-[#F6EFE6]"
             }`}
           >
             <FaHeart size={18} />
           </button>
         </div>
 
-        {/* DETAILS SECTION */}
-        <div className="md:flex-1 p-10 flex flex-col justify-between">
-          {/* Shoe Name */}
-          <h1 className="text-2xl md:text-3xl font-semibold text-[#5C4A3A] mb-4">
+        {/* DETAILS */}
+        <div className="md:flex-1 p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between gap-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#5C4A3A]">
             {shoe.name}
           </h1>
-
-          {/* Badges */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2">
             <span className="px-3 py-1 bg-[#F6EFE6] rounded-full text-xs text-[#7A6A58] font-medium">
               {shoe.category}
             </span>
@@ -99,20 +95,18 @@ const Page = () => {
               {shoe.sexe}
             </span>
           </div>
-
-          {/* Description */}
-          <p className="text-[#7A6A58] text-sm md:text-base mb-6 leading-relaxed">
+          <p className="text-[#7A6A58] text-sm md:text-base leading-relaxed flex-1">
             {shoe.description}
           </p>
-
-          {/* Price */}
-          <p className="text-2xl md:text-3xl font-bold text-[#5C4A3A] mb-6">
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#5C4A3A]">
             ${shoe.price}
           </p>
-
-          {/* Add to Cart Button */}
-          <button onClick={()=>dispatch(addToCart(shoe))} className="w-full md:w-auto px-6 py-3 bg-[#8B7355] hover:bg-[#7A6349] text-white rounded-lg font-medium flex items-center justify-center gap-3 transition transform hover:scale-[1.02] active:scale-[0.98]">
-            <FaShoppingCart size={16} /> Add to Cart
+          <button
+            type="button"
+            onClick={() => dispatch(addToCart(shoe))}
+            className="w-full md:w-auto px-6 py-3.5 bg-[#8B7355] hover:bg-[#7A6349] text-white rounded-xl font-medium flex items-center justify-center gap-2 transition hover:opacity-95 active:scale-[0.98]"
+          >
+            <FaShoppingCart size={18} /> Add to Cart
           </button>
         </div>
       </div>

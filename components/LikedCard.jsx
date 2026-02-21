@@ -13,74 +13,51 @@ const LikedCard = ({ product }) => {
   const router = useRouter();
 
   return (
-    <div
-      className="relative flex flex-col gap-3 bg-white border p-4 shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-      style={{
-        width: "300px",
-        height: "425px",
-        borderColor: "#E8DCC8",
-        borderRadius: "12px",
-      }}
-    >
+    <div className="relative flex flex-col bg-white border border-[#E8DCC8] rounded-xl p-3 sm:p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 w-full h-full min-h-[320px] sm:min-h-[380px] flex">
       {/* Trash button */}
       <button
+        type="button"
         onClick={() => dispatch(deleteFromLiked(product))}
-        className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-white shadow cursor-pointer"
+        className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-white/95 shadow-md hover:scale-110 transition cursor-pointer text-red-600 hover:bg-red-50"
       >
-        <FaTrash className="text-red-600 text-lg"  />
+        <FaTrash className="text-base sm:text-lg" />
       </button>
 
       {/* Image */}
-      <div className="w-full h-70 overflow-hidden rounded-lg bg-gray-100">
-        <img
-          src={product.img}
-          alt={product.name}
-          className="w-full h-full object-cover"
-        />
+      <div className="w-full aspect-square overflow-hidden rounded-lg bg-[#FAF7F2] mb-3">
+        <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
       </div>
 
       {/* Name */}
-      <h3
-        className="text-[23px] font-bold"
-        style={{ color: "#5C4A3A" }}
-      >
+      <h3 className="text-base sm:text-lg md:text-xl font-bold text-[#5C4A3A] line-clamp-2 mb-1">
         {product.name}
       </h3>
 
       {/* Description */}
-      <p
-        className="text-sm leading-snug"
-        style={{ color: "#8B7355" }}
-      >
+      <p className="text-xs sm:text-sm leading-snug text-[#8B7355] line-clamp-2 flex-1 min-h-0">
         {product.description}
       </p>
 
-      {/* Price + Basket */}
-      <div className="flex items-center justify-between mt-auto gap-3">
-        <span className="text-xl font-extrabold text-[#8B7355]">
+      {/* Price + Actions */}
+      <div className="flex items-center gap-2 sm:gap-3 mt-3 pt-3 border-t border-[#E8DCC8]">
+        <span className="text-lg sm:text-xl font-extrabold text-[#8B7355] shrink-0">
           ${product.price}
         </span>
-
-       <button
-          onClick={() =>router.push(`/detail/${product.id}`)}
-          className="flex-1 text-center text-[#8B7355] text-sm font-medium py-2 rounded-md border transition-colors hover:bg-[#8B7355] hover:text-white"
-          style={{
-            borderColor: '#8B7355',
-             
-          }}
-        >
-          View Details
-        </button>
-
         <button
-          className="w-10 h-10 flex items-center justify-center rounded-full"
-          style={{ backgroundColor: '#8B7355' }}
+          type="button"
+          onClick={() => router.push(`/detail/${product.id}`)}
+          className="flex-1 min-w-0 text-center text-[#8B7355] text-xs sm:text-sm font-medium py-2 rounded-lg border border-[#8B7355] transition-colors hover:bg-[#8B7355] hover:text-white"
+        >
+          View
+        </button>
+        <button
+          type="button"
+          className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#8B7355] hover:bg-[#7A6349] transition shrink-0"
           onClick={() => dispatch(addToCart(product))}
         >
-          <FaShoppingCart className="text-white cursor-pointer" />
+          <FaShoppingCart className="text-white text-sm sm:text-base" />
         </button>
       </div>
-
     </div>
   );
 };

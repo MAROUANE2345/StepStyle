@@ -29,53 +29,45 @@ const Page = () => {
   });
 
   return (
-    <div className="p-6 px-60 bg-[#FAF7F2] h-full min-h-screen">
-      {/* Header */}
-      <h1 className="text-[36px] font-bold text-[#5C4A3A] mb-6">
-        Wishlist
-      </h1>
+    <div className="bg-[#FAF7F2] min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#5C4A3A] mb-4 sm:mb-6">
+          Wishlist
+        </h1>
 
-      {/* Search + Filters */}
-      <div className="flex items-center gap-4 mb-6">
-        {/* Search */}
-        <div className="relative flex-1">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-            <FaSearch />
-          </span>
-          <input
-            type="text"
-            placeholder="Search in your wishlist"
-            className="w-full pl-12 pr-4 h-[52px] border rounded-md outline-none"
-            style={{ borderColor: "#E8DCC8", borderRadius: "8px" }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 mb-6 sm:mb-8">
+          <div className="relative flex-1 w-full">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B7355]/60 pointer-events-none">
+              <FaSearch size={18} />
+            </span>
+            <input
+              type="text"
+              placeholder="Search in your wishlist"
+              className="w-full pl-11 pr-4 h-12 sm:h-[52px] border border-[#E8DCC8] rounded-xl outline-none focus:ring-2 focus:ring-[#8B7355]/30 focus:border-[#8B7355] text-[#5C4A3A]"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2 sm:gap-3 flex-wrap">
+            {["All", "Men", "Women", "Kids"].map((btn) => (
+              <button
+                key={btn}
+                type="button"
+                className={`px-4 sm:px-5 h-11 sm:h-[52px] font-medium rounded-xl transition-colors duration-200 cursor-pointer text-sm sm:text-base ${
+                  filter === btn ? "bg-[#8B7355] text-white shadow-md" : "bg-[#EFE6DA] text-[#5C4A3A] hover:bg-[#E8DCC8]"
+                }`}
+                onClick={() => setFilter(btn)}
+              >
+                {btn}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-4">
-          {["All", "Men", "Women", "Kids"].map((btn) => (
-            <button
-              key={btn}
-              className="px-4 h-[52px] font-medium rounded-md transition-colors duration-200 cursor-pointer"
-              style={{
-                backgroundColor: filter === btn ? "#8B7355" : "#EFE6DA",
-                color: filter === btn ? "white" : "#5C4A3A",
-                borderRadius: "8px",
-              }}
-              onClick={() => setFilter(btn)}
-            >
-              {btn}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Wishlist Grid */}
-      {filteredWishlist.length === 0 ? (
-        <p className="text-[#8B7355]">Your wishlist is empty</p>
-      ) : (
-        <div className="grid grid-cols-4 gap-6">
+        {filteredWishlist.length === 0 ? (
+          <p className="text-[#8B7355] text-center py-12 text-sm sm:text-base">Your wishlist is empty. Start adding favorites from the catalogue!</p>
+        ) : (
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
           <AnimatePresence>
             {filteredWishlist.map((product) => (
               <motion.div
@@ -90,8 +82,9 @@ const Page = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

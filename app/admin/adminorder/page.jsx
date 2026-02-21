@@ -5,47 +5,42 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Page = () => {
-  const [order, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     axios
       .get("https://69733ee0b5f46f8b58269eb8.mockapi.io/order")
-      .then((res) => setOrder(res.data));
-  });
+      .then((res) => setOrders(res.data))
+      .catch((err) => console.error("Failed to fetch orders:", err));
+  }, []); // ✅ Add empty dependency array to run once
 
   return (
-    <div className="min-h-screen bg-[#ffffff] px-10 py-8">
-      {/* PAGE HEADER */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-extrabold text-[#5C4A3A]">
+    <div className="min-h-screen bg-[#FAF7F2] px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#5C4A3A]">
           Orders Management
         </h1>
-        <p className="text-sm text-[#8B7355] mt-1">
+        <p className="text-xs sm:text-sm text-[#8B7355] mt-1">
           View and manage all customer orders
         </p>
       </div>
-
-      {/* ORDERS LIST */}
-      <div className="space-y-6">
-        {order.map((index) => {
-          return (
+      {orders.length > 0 ? (
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {orders.map((order) => (
             <AdminOrderCard
-              key={index.id}
-              name={index.name}
-              email={index.email}
-              phone={index.phone}
-              city={index.city}
-              address={index.address}
-              orderInfo={index.orderInfo}
-              totalPrice={index.totalPrice}
+              key={order.id}
+              name={order.name}
+              email={order.email}
+              phone={order.phone}
+              city={order.city}
+              address={order.address}
+              orderInfo={order.orderInfo}
+              totalPrice={order.totalPrice}
             />
-          );
-        })}
-      </div>
-
-      {/* EMPTY STATE */}
-      {order.length === 0 && (
-        <div className="flex items-center justify-center h-[300px] text-[#8B7355]">
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-[200px] sm:h-[300px] text-[#8B7355] text-center">
           No orders found.
         </div>
       )}
