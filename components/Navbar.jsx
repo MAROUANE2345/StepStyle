@@ -48,14 +48,14 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`w-full bg-white sticky top-0 z-50 border-b border-[#E8DCC8] transition-shadow duration-300 ${
-          scrolled ? "shadow-md" : "shadow-none"
-        }`}
+        className={`w-full bg-white sticky top-0 z-50 border-b border-[#E8DCC8] transition-shadow duration-300 ${scrolled ? "shadow-md" : "shadow-none"
+          }`}
       >
         <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-6 h-16 sm:h-20">
 
           {/* Logo */}
           <h1
+            data-testid="logo"
             className="font-bold text-xl sm:text-2xl md:text-[26px] text-[#8B7355] cursor-pointer tracking-wide select-none"
             onClick={() => navigate("/")}
           >
@@ -83,15 +83,15 @@ const Navbar = () => {
 
           {/* Right Side Icons */}
           <div className="flex items-center gap-3 sm:gap-5">
-            <button type="button" onClick={() => navigate("/wishlist")} className="p-2 -m-2 rounded-lg hover:bg-[#FAF7F2] transition">
+            <button type="button" data-testid="heart-icon" onClick={() => navigate("/wishlist")} className="p-2 -m-2 rounded-lg hover:bg-[#FAF7F2] transition">
               <FaHeart
                 size={18}
-              className="text-[#5C4A3A] hover:text-[#8B7355] transition-all duration-200"
+                className="text-[#5C4A3A] hover:text-[#8B7355] transition-all duration-200"
               />
             </button>
 
             <div className="relative">
-              <button type="button" onClick={() => dispatch(handleCart())} className="p-2 -m-2 rounded-lg hover:bg-[#FAF7F2] transition relative">
+              <button type="button" data-testid="cart-icon" onClick={() => dispatch(handleCart())} className="p-2  rounded-lg hover:bg-[#FAF7F2] transition relative">
                 <FaShoppingCart
                   size={18}
                   className="text-[#5C4A3A] hover:text-[#8B7355] transition-all duration-200"
@@ -104,7 +104,7 @@ const Navbar = () => {
               </button>
             </div>
 
-            <button type="button" onClick={() => navigate("/admin")} className="p-2 -m-2 rounded-lg hover:bg-[#FAF7F2] transition">
+            <button type="button" data-testid="user-icon" onClick={() => navigate("/admin")} className="p-2 -m-2 rounded-lg hover:bg-[#FAF7F2] transition">
               <FaUser
                 size={18}
                 className="text-[#5C4A3A] hover:text-[#8B7355] transition-all duration-200"
@@ -119,19 +119,16 @@ const Navbar = () => {
               aria-label="Toggle menu"
             >
               <span
-                className={`block h-[2px] w-5 bg-[#5C4A3A] rounded-full transition-all duration-300 origin-center ${
-                  menuOpen ? "rotate-45 translate-y-[7px]" : ""
-                }`}
+                className={`block h-[2px] w-5 bg-[#5C4A3A] rounded-full transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[7px]" : ""
+                  }`}
               />
               <span
-                className={`block h-[2px] w-5 bg-[#5C4A3A] rounded-full transition-all duration-300 ${
-                  menuOpen ? "opacity-0 scale-x-0" : ""
-                }`}
+                className={`block h-[2px] w-5 bg-[#5C4A3A] rounded-full transition-all duration-300 ${menuOpen ? "opacity-0 scale-x-0" : ""
+                  }`}
               />
               <span
-                className={`block h-[2px] w-5 bg-[#5C4A3A] rounded-full transition-all duration-300 origin-center ${
-                  menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
-                }`}
+                className={`block h-[2px] w-5 bg-[#5C4A3A] rounded-full transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                  }`}
               />
             </button>
           </div>
@@ -140,17 +137,15 @@ const Navbar = () => {
 
       {/* Mobile Overlay */}
       <div
-        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
         onClick={() => setMenuOpen(false)}
       />
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-72 bg-white z-50 lg:hidden flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-72 bg-white z-50 lg:hidden flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Drawer Header */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-[#E8DCC8]">
@@ -173,17 +168,15 @@ const Navbar = () => {
               onClick={() => navigate(link.path)}
               style={{ animationDelay: `${index * 60}ms` }}
               className={`flex items-center justify-between w-full px-4 py-3 rounded-xl text-sm font-semibold tracking-wide transition-all duration-200 cursor-pointer border-none text-left group
-                ${
-                  pathname === link.path
-                    ? "bg-[#FAF7F2] text-[#8B7355] border border-[#E8DCC8]"
-                    : "text-[#5C4A3A] hover:bg-[#FAF7F2] hover:text-[#8B7355]"
+                ${pathname === link.path
+                  ? "bg-[#FAF7F2] text-[#8B7355] border border-[#E8DCC8]"
+                  : "text-[#5C4A3A] hover:bg-[#FAF7F2] hover:text-[#8B7355]"
                 }`}
             >
               {link.name}
               <span
-                className={`text-[#8B7355] transition-transform duration-200 group-hover:translate-x-1 ${
-                  pathname === link.path ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                }`}
+                className={`text-[#8B7355] transition-transform duration-200 group-hover:translate-x-1 ${pathname === link.path ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  }`}
               >
                 →
               </span>

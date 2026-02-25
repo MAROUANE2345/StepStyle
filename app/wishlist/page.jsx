@@ -6,6 +6,15 @@ import { useSelector } from "react-redux";
 import { FaSearch } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut", delay },
+  }),
+};
+
 const Page = () => {
   const wishList = useSelector((state) => state.like?.Liked || []);
 
@@ -30,12 +39,27 @@ const Page = () => {
 
   return (
     <div className="bg-[#FAF7F2] min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#5C4A3A] mb-4 sm:mb-6">
+      <motion.div
+        className="max-w-7xl mx-auto"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        custom={0}
+      >
+        <motion.h1
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#5C4A3A] mb-4 sm:mb-6"
+          variants={fadeUp}
+          custom={0.05}
+        >
           Wishlist
-        </h1>
+        </motion.h1>
 
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 mb-6 sm:mb-8">
+        <motion.div
+          className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 mb-6 sm:mb-8"
+          variants={fadeUp}
+          custom={0.1}
+        >
           <div className="relative flex-1 w-full">
             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B7355]/60 pointer-events-none">
               <FaSearch size={18} />
@@ -62,29 +86,39 @@ const Page = () => {
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {filteredWishlist.length === 0 ? (
-          <p className="text-[#8B7355] text-center py-12 text-sm sm:text-base">Your wishlist is empty. Start adding favorites from the catalogue!</p>
+          <motion.p
+            className="text-[#8B7355] text-center py-12 text-sm sm:text-base"
+            variants={fadeUp}
+            custom={0.15}
+          >
+            Your wishlist is empty. Start adding favorites from the catalogue!
+          </motion.p>
         ) : (
-          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-          <AnimatePresence>
-            {filteredWishlist.map((product) => (
-              <motion.div
-                key={product.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <LikedCard product={product} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          </div>
+          <motion.div
+            className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6"
+            variants={fadeUp}
+            custom={0.15}
+          >
+            <AnimatePresence>
+              {filteredWishlist.map((product) => (
+                <motion.div
+                  key={product.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <LikedCard product={product} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 "use client";
+import { deleteFromCart } from "@/lib/reducer/cartSlice";
 import { deleteProducts } from "@/lib/reducer/productSlice";
+import { deleteFromLiked } from "@/lib/reducer/wishListSlice";
 import React from "react";
 import { FaTrash, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -8,6 +10,8 @@ const DeletePopUp = ({ onClose,id}) => {
     const dispatch = useDispatch();
     const handleDelete = (id) => {
         dispatch(deleteProducts(id));
+         dispatch(deleteFromLiked(id)); 
+         dispatch(deleteFromCart(id))
         onClose();
         
     }

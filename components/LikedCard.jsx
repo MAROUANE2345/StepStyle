@@ -17,7 +17,7 @@ const LikedCard = ({ product }) => {
       {/* Trash button */}
       <button
         type="button"
-        onClick={() => dispatch(deleteFromLiked(product))}
+        onClick={() => dispatch(deleteFromLiked(product.id))}
         className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-white/95 shadow-md hover:scale-110 transition cursor-pointer text-red-600 hover:bg-red-50"
       >
         <FaTrash className="text-base sm:text-lg" />

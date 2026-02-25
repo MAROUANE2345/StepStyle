@@ -10,6 +10,7 @@ const SideBar = ({ isOpen, onClose }) => {
 
   const linkClasses =
     "flex items-center px-4 py-3 rounded-lg font-semibold text-[#5C4A3A] hover:bg-[#DCCDBA] cursor-pointer transition-colors duration-200";
+
   const activeLinkClasses =
     "flex items-center px-4 py-3 rounded-lg font-semibold bg-[#8B7355] text-white cursor-pointer transition-colors duration-200";
 
@@ -20,7 +21,14 @@ const SideBar = ({ isOpen, onClose }) => {
     { name: "Back to Store", path: "/", icon: "↩️" },
   ];
 
+  // ✅ Updated navigate function
   const navigate = (path) => {
+    if (path === "/") {
+      // Remove admin token cookie (logout)
+      document.cookie =
+        "adminToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    }
+
     router.push(path);
     onClose?.();
   };
@@ -29,6 +37,7 @@ const SideBar = ({ isOpen, onClose }) => {
     const handleEscape = (e) => {
       if (e.key === "Escape") onClose?.();
     };
+
     if (isOpen) window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
@@ -39,6 +48,7 @@ const SideBar = ({ isOpen, onClose }) => {
         <h1 className="text-xl lg:text-2xl font-extrabold text-[#5C4A3A]">
           StepStyle Admin
         </h1>
+
         <button
           type="button"
           onClick={onClose}
@@ -48,14 +58,18 @@ const SideBar = ({ isOpen, onClose }) => {
           <FaTimes size={20} />
         </button>
       </div>
+
       <div className="flex-1 flex flex-col gap-2 p-4">
         {links.map((link) => (
           <div
             key={link.name}
             onClick={() => navigate(link.path)}
-            className={pathname === link.path ? activeLinkClasses : linkClasses}
+            className={
+              pathname === link.path ? activeLinkClasses : linkClasses
+            }
           >
-            <span className="mr-3">{link.icon}</span> {link.name}
+            <span className="mr-3">{link.icon}</span>
+            {link.name}
           </div>
         ))}
       </div>
@@ -75,7 +89,8 @@ const SideBar = ({ isOpen, onClose }) => {
         }`}
         aria-hidden="true"
       />
-      {/* Sidebar: drawer on mobile, static on desktop */}
+
+      {/* Sidebar */}
       <aside
         className={`
           h-screen flex flex-col bg-[#F5F0E8] border-r-2 border-[#E8DCC8]

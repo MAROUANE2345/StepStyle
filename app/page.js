@@ -4,10 +4,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/lib/reducer/productSlice";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut", delay },
+  }),
+};
 
 const Page = () => {
   const dispatch = useDispatch();
-  const bestSells = useSelector((state) => state.data.products) || [];
+  const { products: bestSells, loading } = useSelector((state) => state.data);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -17,11 +27,24 @@ const Page = () => {
     <div className="min-h-screen bg-[#FAF7F2] text-[#6B5B4A]">
 
       {/* ================= HERO SECTION ================= */}
-      <section className="px-4 sm:px-6 md:px-12 py-12 sm:py-16 md:py-24">
+      <motion.section
+        className="px-4 sm:px-6 md:px-12 py-12 sm:py-16 md:py-24"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        custom={0}
+      >
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
 
           {/* Left Content */}
-          <div>
+          <motion.div
+            variants={fadeUp}
+            custom={0.1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 sm:mb-6">
               Step Into Confidence.
             </h1>
@@ -44,9 +67,15 @@ const Page = () => {
                 Search with AI
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex justify-center md:justify-end order-first md:order-none">
+          <motion.div
+            className="flex justify-center md:justify-end order-first md:order-none"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+            viewport={{ once: true, amount: 0.4 }}
+          >
             <Image
               src="/home2.jpg"
               alt="Featured Shoe"
@@ -55,27 +84,46 @@ const Page = () => {
               className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] h-auto object-contain rounded-2xl shadow-lg"
               priority
             />
-          </div>
+          </motion.div>
 
         </div>
-      </section>
+      </motion.section>
 
 
       {/* ================= FEATURE SECTION ================= */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-12 bg-white/50">
-        <div className="max-w-6xl mx-auto text-center mb-12 md:mb-16">
+      <motion.section
+        className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-12 bg-white/50"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+        custom={0.1}
+      >
+        <motion.div
+          className="max-w-6xl mx-auto text-center mb-12 md:mb-16"
+          variants={fadeUp}
+          custom={0.1}
+        >
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             Designed for Every Step
           </h2>
           <p className="text-sm sm:text-base">
             Where comfort meets craftsmanship and modern style.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
 
           {/* Card 1 */}
-          <div className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center">
+          <motion.div
+            variants={fadeUp}
+            custom={0.15}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            whileHover={{ y: -6, boxShadow: "0 18px 45px rgba(0,0,0,0.08)" }}
+            className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl text-center transition-shadow duration-200"
+          >
             <Image
               src="/new.jpg"
               alt="Premium Materials"
@@ -89,10 +137,18 @@ const Page = () => {
             <p className="text-sm sm:text-base">
               Carefully selected fabrics and durable soles built to last.
             </p>
-          </div>
+          </motion.div>
 
           {/* Card 2 */}
-          <div className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center">
+          <motion.div
+            variants={fadeUp}
+            custom={0.2}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            whileHover={{ y: -6, boxShadow: "0 18px 45px rgba(0,0,0,0.08)" }}
+            className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl text-center transition-shadow duration-200"
+          >
             <Image
               src="/home4.jpg"
               alt="All Day Comfort"
@@ -106,10 +162,18 @@ const Page = () => {
             <p className="text-sm sm:text-base">
               Lightweight support designed for long walks and busy days.
             </p>
-          </div>
+          </motion.div>
 
           {/* Card 3 */}
-          <div className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center">
+          <motion.div
+            variants={fadeUp}
+            custom={0.25}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            whileHover={{ y: -6, boxShadow: "0 18px 45px rgba(0,0,0,0.08)" }}
+            className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl text-center transition-shadow duration-200"
+          >
             <Image
               src="/shoes.jpg"
               alt="Modern Style"
@@ -123,12 +187,13 @@ const Page = () => {
             <p className="text-sm sm:text-base">
               Timeless designs that match every outfit and occasion.
             </p>
-          </div>
+          </motion.div>
 
         </div>
-      </section>
+      </motion.section>
 
 
+      {/* ================= BEST SELLS SECTION ================= */}
       {/* ================= BEST SELLS SECTION ================= */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-12 bg-white/50">
         <div className="max-w-6xl mx-auto text-center mb-10 sm:mb-16">
@@ -141,35 +206,58 @@ const Page = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
-          {bestSells.slice(0, 3).map((product) => (
-            <div
-              key={product.id}
-              className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group"
-            >
-              <Image
-                src={product.img || "/shoes.jpg"}
-                alt={product.name}
-                width={250}
-                height={200}
-                className="mx-auto mb-4 sm:mb-6 object-contain rounded-xl group-hover:scale-105 transition"
-              />
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-[#5C4A3A]">
-                {product.name}
-              </h3>
-              <p className="text-sm sm:text-base mb-2 text-[#7A6A58]">
-                {product.category}
-              </p>
-              <p className="text-base sm:text-lg font-bold text-[#8B7355] mb-4">
-                ${product.price}
-              </p>
-              <Link
-                href={`/detail/${product.id}`}
-                className="inline-block border-2 border-[#8B7355] text-[#8B7355] px-5 py-2.5 rounded-xl font-medium hover:bg-[#8B7355] hover:text-white transition text-sm"
+
+          {/* LOADING STATE */}
+          {loading && (
+            <p className="col-span-full text-center text-[#6B5B4A]">
+              Loading best sellers...
+            </p>
+          )}
+
+          {/* PRODUCTS */}
+          {!loading && bestSells.length > 0 &&
+            bestSells.slice(0, 3).map((product) => (
+              <div
+                key={product.id}
+                className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group"
               >
-                View Product
-              </Link>
-            </div>
-          ))}
+                <Image
+                  src={product.img || "/shoes.jpg"}
+                  alt={product.name}
+                  width={250}
+                  height={200}
+                  className="mx-auto mb-4 sm:mb-6 object-contain rounded-xl group-hover:scale-105 transition"
+                />
+
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-[#5C4A3A]">
+                  {product.name}
+                </h3>
+
+                <p className="text-sm sm:text-base mb-2 text-[#7A6A58]">
+                  {product.category}
+                </p>
+
+                <p className="text-base sm:text-lg font-bold text-[#8B7355] mb-4">
+                  ${product.price}
+                </p>
+
+                <Link
+                  href={`/detail/${product.id}`}
+                  className="inline-block border-2 border-[#8B7355] text-[#8B7355] px-5 py-2.5 rounded-xl font-medium hover:bg-[#8B7355] hover:text-white transition text-sm"
+                >
+                  View Product
+                </Link>
+              </div>
+            ))
+          }
+
+          {/* EMPTY STATE */}
+          {!loading && bestSells.length === 0 && (
+            <p className="col-span-full text-center text-[#6B5B4A]">
+              No products available.
+            </p>
+          )}
+
         </div>
       </section>
 
@@ -190,7 +278,10 @@ const Page = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
 
           {/* Men's Collection */}
-          <div className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center">
+          <Link
+            href="/catalogue?filter=Men"
+            className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center cursor-pointer block"
+          >
             <Image
               src="/maleSection2.jpg"
               alt="Men's Collection"
@@ -204,10 +295,13 @@ const Page = () => {
             <p className="text-sm sm:text-base">
               Stylish shoes designed for comfort and daily life.
             </p>
-          </div>
+          </Link>
 
           {/* Women's Collection */}
-          <div className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center">
+          <Link
+            href="/catalogue?filter=Women"
+            className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center cursor-pointer block"
+          >
             <Image
               src="/femaleSection2.jpg"
               alt="Women's Collection"
@@ -221,10 +315,13 @@ const Page = () => {
             <p className="text-sm sm:text-base">
               Elegant shoes for style and all-day comfort.
             </p>
-          </div>
+          </Link>
 
           {/* Kids Collection */}
-          <div className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center">
+          <Link
+            href="/catalogue?filter=Kids"
+            className="bg-[#FAF7F2] p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center cursor-pointer block"
+          >
             <Image
               src="/kidSection.jpg"
               alt="Kids Collection"
@@ -238,7 +335,7 @@ const Page = () => {
             <p className="text-sm sm:text-base">
               Fun, comfortable shoes for kids of all ages.
             </p>
-          </div>
+          </Link>
 
         </div>
       </section>

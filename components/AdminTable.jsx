@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import DeletePopUp from "./deletePopUp";
 import EditPopUp from "./editProduct";
@@ -9,6 +9,14 @@ const AdminTable = ({ products }) => {
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [id, setId] = useState("");
+
+  // ✅ LOCAL STATE COPY (THIS FIXES YOUR PROBLEM)
+  const [localProducts, setLocalProducts] = useState(products);
+
+  // sync if parent updates
+  useEffect(() => {
+    setLocalProducts(products);
+  }, [products]);
 
   const stopEditPopUp = () => setEditPopUp(false);
   const stopPopUp = () => setDeletePopUp(false);
@@ -23,14 +31,34 @@ const AdminTable = ({ products }) => {
     setSelectedProduct(product);
   };
 
+  // ✅ REMOVE PRODUCT INSTANTLY FROM UI
+  const handleDeleteSuccess = (deletedId) => {
+    setLocalProducts(prev =>
+      prev.filter(product => product.id !== deletedId)
+    );
+    setDeletePopUp(false);
+  };
+
+  // ✅ UPDATE PRODUCT INSTANTLY IN UI
+  const handleEditSuccess = (updatedProduct) => {
+    setLocalProducts(prev =>
+      prev.map(product =>
+        product.id === updatedProduct.id ? updatedProduct : product
+      )
+    );
+    setEditPopUp(false);
+  };
+
   const sizeStr = (product) =>
-    Array.isArray(product.size) ? product.size.join(", ") : product.size || "—";
+    Array.isArray(product.size)
+      ? product.size.join(", ")
+      : product.size || "—";
 
   return (
     <>
-      {/* Mobile/Tablet: card list — no horizontal scroll */}
+      {/* Mobile */}
       <div className="md:hidden space-y-4">
-        {products.map((product) => (
+        {localProducts.map((product) => (
           <div
             key={product.id}
             className="bg-white border border-[#E8DCC8] rounded-xl p-4 shadow-sm"
@@ -39,115 +67,120 @@ const AdminTable = ({ products }) => {
               <img
                 src={product.img}
                 alt={product.name}
-                className="h-20 w-20 rounded-lg object-cover flex-shrink-0 bg-[#FAF7F2]"
+                className="h-20 w-20 rounded-lg object-cover bg-[#FAF7F2]"
               />
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-[#5C4A3A] truncate">
+
+              <div className="flex-1">
+                <h3 className="font-semibold text-[#5C4A3A]">
                   {product.name}
                 </h3>
-                <p className="text-[#8B7355] font-medium mt-0.5">
+
+                <p className="text-[#8B7355] font-medium">
                   ${product.price}
                 </p>
-                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-[#7A6A58]">
-                  <span>{product.sexe}</span>
-                  <span>·</span>
-                  <span>{sizeStr(product)}</span>
-                  <span>·</span>
-                  <span>{product.category}</span>
+
+                <div className="text-xs text-[#7A6A58] mt-2">
+                  {product.sexe} · {sizeStr(product)} · {product.category}
                 </div>
               </div>
             </div>
-            <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-[#E8DCC8]">
+
+            <div className="flex justify-end gap-2 mt-4 pt-4 border-t">
               <button
-                type="button"
                 onClick={() => handleEditOnClick(product)}
-                className="flex items-center gap-2 rounded-lg bg-[#8B7355] px-4 py-2.5 text-white text-sm font-medium hover:bg-[#7A6349] transition"
-                title="Edit"
+                className="bg-[#8B7355] text-white px-4 py-2 rounded-lg hover:bg-[#7A6349]"
               >
-                <FaEdit size={14} /> Edit
+                <FaEdit size={14} /> 
               </button>
+
               <button
-                type="button"
                 onClick={() => handleDeleteOnclick(product.id)}
-                className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-white text-sm font-medium hover:bg-red-600 transition"
-                title="Delete"
+                className="bg-red-500 text-white px-4 py-2 h-[50px] rounded-lg hover:bg-red-600"
               >
-                <FaTrash size={14} /> Delete
+                <FaTrash size={14} /> 
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Desktop: table */}
-      <div className="hidden md:block rounded-xl border border-[#E8DCC8] overflow-hidden bg-white">
-        <table className="w-full border-collapse">
-          <thead className="bg-[#F7F1E8] text-left text-sm text-[#5C4A3A]">
+      {/* Desktop */}
+      <div className="hidden md:block border rounded-xl overflow-hidden bg-white">
+        <table className="w-full">
+          <thead className="bg-[#F7F1E8]">
             <tr>
-              <th className="p-3 md:p-4">Image</th>
-              <th className="p-3 md:p-4">Name</th>
-              <th className="p-3 md:p-4">Price</th>
-              <th className="p-3 md:p-4">Sexe</th>
-              <th className="p-3 md:p-4">Size</th>
-              <th className="p-3 md:p-4">Category</th>
-              <th className="p-3 md:p-4 text-center">Actions</th>
+              <th className="p-4">Image</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Sexe</th>
+              <th>Size</th>
+              <th>Category</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
-          <tbody className="text-sm">
-            {products.map((product) => (
-              <tr
-                key={product.id}
-                className="border-t border-[#E8DCC8] hover:bg-[#FAF7F2] transition"
-              >
-                <td className="p-3 md:p-4">
+
+          <tbody>
+            {localProducts.map((product) => (
+              <tr key={product.id} className="border-t hover:bg-[#FAF7F2]">
+                <td className="p-4">
                   <img
                     src={product.img}
-                    alt={product.name}
-                    className="h-12 w-12 rounded-lg object-cover bg-[#FAF7F2]"
+                    className="h-12 w-12 rounded-lg object-cover"
                   />
                 </td>
-                <td className="p-3 md:p-4 font-medium text-[#5C4A3A]">
-                  {product.name}
-                </td>
-                <td className="p-3 md:p-4 text-[#8B7355] font-medium">
-                  ${product.price}
-                </td>
-                <td className="p-3 md:p-4 text-[#7A6A58]">{product.sexe}</td>
-                <td className="p-3 md:p-4 text-[#7A6A58]">
-                  {sizeStr(product)}
-                </td>
-                <td className="p-3 md:p-4 text-[#7A6A58]">
-                  {product.category}
-                </td>
-                <td className="p-3 md:p-4">
+
+                <td>{product.name}</td>
+
+                <td>${product.price}</td>
+
+                <td>{product.sexe}</td>
+
+                <td>{sizeStr(product)}</td>
+
+                <td>{product.category}</td>
+
+                <td>
                   <div className="flex justify-center gap-2">
+
                     <button
-                      type="button"
                       onClick={() => handleEditOnClick(product)}
-                      className="rounded-lg bg-[#8B7355] p-2.5 hover:bg-[#7A6349] transition"
-                      title="Edit"
+                      className="bg-[#8B7355] p-2 rounded-lg hover:bg-[#7A6349]"
                     >
-                      <FaEdit className="text-white" size={16} />
+                      <FaEdit className="text-white" /> 
                     </button>
+
                     <button
-                      type="button"
                       onClick={() => handleDeleteOnclick(product.id)}
-                      className="rounded-lg bg-red-500 p-2.5 hover:bg-red-600 transition"
-                      title="Delete"
+                      className="bg-red-500 p-2 rounded-lg hover:bg-red-600"
                     >
-                      <FaTrash className="text-white" size={16} />
+                      <FaTrash className="text-white" /> 
                     </button>
+
                   </div>
                 </td>
+
               </tr>
             ))}
           </tbody>
+
         </table>
       </div>
 
-      {deletePopUp && <DeletePopUp id={id} onClose={stopPopUp} />}
+      {/* POPUPS */}
+      {deletePopUp && (
+        <DeletePopUp
+          id={id}
+          onClose={stopPopUp}
+          onDeleteSuccess={handleDeleteSuccess} // ✅ IMPORTANT
+        />
+      )}
+
       {editPopUp && (
-        <EditPopUp onClose={stopEditPopUp} product={selectedProduct} />
+        <EditPopUp
+          product={selectedProduct}
+          onClose={stopEditPopUp}
+          onEditSuccess={handleEditSuccess} // ✅ IMPORTANT
+        />
       )}
     </>
   );

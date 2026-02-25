@@ -33,6 +33,7 @@ const Page = () => {
               email={order.email}
               phone={order.phone}
               city={order.city}
+              img={order.img}
               address={order.address}
               orderInfo={order.orderInfo}
               totalPrice={order.totalPrice}

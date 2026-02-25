@@ -15,7 +15,7 @@ const Page = () => {
   ) {
     // ✅ SET AUTH COOKIE (this is what middleware reads)
     document.cookie = "adminToken=true; path=/";
-
+    
     // ✅ Redirect to protected page
     router.push("/admin/adminmanage");
   } else {

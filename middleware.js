@@ -3,46 +3,23 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Read auth cookie
+  // Read admin token
   const isLoggedIn = request.cookies.get("adminToken");
 
-  // List of routes to protect (excluding /admin)
-  const protectedRoutes = [
-    "/catalogue",
-    "/aboutus",
-    "/admin/adminadd",
-    "/admin/adminmanage",
-    "/admin/adminorder",
-    "/aihelp",
-    "/contact",
-    "/order",
-    "/wishlist",
-    "/" // home page
-  ];
+  // ✅ ONLY protect admin routes
+  const isAdminRoute = pathname.startsWith("/admin") &&
+                       pathname !== "/admin"; // allow login page
 
-  // Check if current path matches any protected route
-  const isProtected = protectedRoutes.some(route => pathname === route || pathname.startsWith(route + "/"));
-
-  // Redirect to login if not logged in and route is protected
-  if (!isLoggedIn && isProtected) {
+  // If trying to access admin pages without token → redirect to login
+  if (isAdminRoute && !isLoggedIn) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
 
+  // Otherwise allow access
   return NextResponse.next();
 }
 
-// Which routes the middleware should run on
+// ✅ Run middleware ONLY on admin routes
 export const config = {
-  matcher: [
-    "/catalogue/:path*",
-    "/aboutus/:path*",
-    "/admin/adminadd/:path*",
-    "/admin/adminmanage/:path*",
-    "/admin/adminorder/:path*",
-    "/aihelp/:path*",
-    "/contact/:path*",
-    "/order/:path*",
-    "/wishlist/:path*",
-    "/" // protect home
-  ],
+  matcher: ["/admin/:path*"],
 };

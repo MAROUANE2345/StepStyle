@@ -83,7 +83,7 @@ const Cart = () => {
                         </button>
                       </div>
                     </div>
-                    <button type="button" onClick={() => dispatch(deleteFromCart(product))} className="absolute bottom-3 right-3 p-1.5 rounded-lg hover:bg-red-100 text-red-600 transition">
+                    <button type="button" onClick={() => dispatch(deleteFromCart(product.id))} className="absolute bottom-3 right-3 p-1.5 rounded-lg hover:bg-red-100 text-red-600 transition">
                       <FaTrash size={14} />
                     </button>
                   </div>
