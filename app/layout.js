@@ -24,8 +24,9 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen antialiased">
         <Provider store={store}>
           {isAdminSubPage ? (
-            <div className="flex min-h-screen">
+            <div className="flex min-h-screen ">
               <SideBar
+          
                 isOpen={adminSidebarOpen}
                 onClose={() => setAdminSidebarOpen(false)}
               />

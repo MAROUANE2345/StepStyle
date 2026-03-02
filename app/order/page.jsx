@@ -23,6 +23,8 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     const products = cart.map((item) => ({
       id: item.id,
@@ -35,16 +37,54 @@ const Page = () => {
     setOrderInfo(products);
   }, [cart]);
 
-  const isFormValid =
-    name.trim() &&
-    email.trim() &&
-    phone.trim() &&
-    city.trim() &&
-    address.trim() &&
-    cart.length > 0;
+  const validateForm = () => {
+    const newErrors = {};
+    let valid = true;
+
+    if (!name.trim()) {
+      newErrors.name = "Please enter your full name";
+      valid = false;
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Please enter your email";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Invalid email format";
+      valid = false;
+    }
+
+    if (!phone.trim()) {
+      newErrors.phone = "Please enter your phone number";
+      valid = false;
+    } else if (!/^\+?\d{10,15}$/.test(phone.replace(/\s+/g, ""))) {
+      newErrors.phone = "Invalid phone number";
+      valid = false;
+    }
+
+    if (!city.trim()) {
+      newErrors.city = "Please enter your city";
+      valid = false;
+    }
+
+    if (!address.trim()) {
+      newErrors.address = "Please enter your shipping address";
+      valid = false;
+    }
+
+    if (cart.length === 0) {
+      newErrors.cart = "Your cart is empty";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
 
   const handleOrder = async () => {
-    if (!isFormValid || loading) return;
+    if (loading) return;
+
+    if (!validateForm()) return;
 
     try {
       setLoading(true);
@@ -70,18 +110,17 @@ const Page = () => {
       setTimeout(() => {
         setShowSuccess(false);
       }, 2000);
+
+      dispatch(clearCart());
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-
-    dispatch(clearCart())
   };
 
   return (
     <div className="relative min-h-screen bg-[#FAF7F2]">
-
       {/* ================= SUCCESS POPUP ================= */}
       <AnimatePresence>
         {showSuccess && (
@@ -110,7 +149,7 @@ const Page = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-white text-lg font-semibold mt-3"
+                className="text-white text-lg font-semibold mt-3 text-center"
               >
                 Order sent successfully!
               </motion.p>
@@ -120,7 +159,6 @@ const Page = () => {
       </AnimatePresence>
 
       <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-10 max-w-5xl mx-auto">
-
         <nav className="mb-6 sm:mb-8 text-sm">
           <ol className="flex items-center gap-2 text-[#7A6A58]">
             <li>
@@ -136,27 +174,22 @@ const Page = () => {
           </ol>
         </nav>
 
-        <h1 className="text-3xl font-bold text-[#5C4A3A] mb-8">
-          Checkout
-        </h1>
+        <h1 className="text-3xl font-bold text-[#5C4A3A] mb-8">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
           {/* ================= LEFT FORM ================= */}
           <div className="lg:col-span-2 order-2 lg:order-1">
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-[#E8DCC8]">
-
               <h2 className="text-xl font-bold text-[#5C4A3A] mb-6">
                 Customer information
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
                 {[ 
-                  { label: "Full name", value: name, setter: setName, type: "text", placeholder: "John Doe" },
-                  { label: "Email", value: email, setter: setEmail, type: "email", placeholder: "john@email.com" },
-                  { label: "Phone", value: phone, setter: setPhone, type: "text", placeholder: "+212 6XX XX XX XX" },
-                  { label: "City", value: city, setter: setCity, type: "text", placeholder: "Casablanca" },
+                  { label: "Full name", value: name, setter: setName, type: "text", placeholder: "John Doe", error: errors.name },
+                  { label: "Email", value: email, setter: setEmail, type: "email", placeholder: "john@email.com", error: errors.email },
+                  { label: "Phone", value: phone, setter: setPhone, type: "text", placeholder: "+212 6XX XX XX XX", error: errors.phone },
+                  { label: "City", value: city, setter: setCity, type: "text", placeholder: "Casablanca", error: errors.city },
                 ].map((field, i) => (
                   <div key={i} className={i === 0 ? "sm:col-span-2" : ""}>
                     <label className="block mb-2 text-sm font-medium text-[#5C4A3A]">
@@ -167,8 +200,11 @@ const Page = () => {
                       value={field.value}
                       onChange={(e) => field.setter(e.target.value)}
                       placeholder={field.placeholder}
-                      className="w-full h-12 px-4 border border-[#E8DCC8] rounded-xl outline-none transition focus:ring-2 focus:ring-[#8B7355]/30 focus:border-[#8B7355] hover:border-[#8B7355]"
+                      className={`w-full h-12 px-4 border rounded-xl outline-none transition focus:ring-2 focus:ring-[#8B7355]/30 focus:border-[#8B7355] hover:border-[#8B7355] ${
+                        field.error ? "border-red-500" : "border-[#E8DCC8]"
+                      }`}
                     />
+                    {field.error && <p className="text-red-500 text-sm mt-1">{field.error}</p>}
                   </div>
                 ))}
 
@@ -181,21 +217,20 @@ const Page = () => {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="Street, building, apartment..."
-                    className="w-full px-4 py-3 border border-[#E8DCC8] rounded-xl outline-none resize-none transition focus:ring-2 focus:ring-[#8B7355]/30 focus:border-[#8B7355] hover:border-[#8B7355]"
+                    className={`w-full px-4 py-3 border rounded-xl outline-none resize-none transition focus:ring-2 focus:ring-[#8B7355]/30 focus:border-[#8B7355] hover:border-[#8B7355] ${
+                      errors.address ? "border-red-500" : "border-[#E8DCC8]"
+                    }`}
                   />
+                  {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={handleOrder}
-                disabled={!isFormValid || loading}
+                disabled={loading}
                 className={`mt-8 w-full h-14 rounded-xl font-bold text-lg transition-all duration-200
-                ${
-                  !isFormValid || loading
-                    ? "bg-gray-300 cursor-not-allowed text-gray-500"
-                    : "bg-[#8B7355] hover:bg-[#7A6349] active:scale-[0.98] text-white cursor-pointer"
-                }`}
+                ${loading ? "bg-gray-300 cursor-not-allowed text-gray-500" : "bg-[#8B7355] hover:bg-[#7A6349] active:scale-[0.98] text-white cursor-pointer"}`}
               >
                 {loading ? "Processing..." : "Confirm & Place Order"}
               </button>
@@ -205,7 +240,6 @@ const Page = () => {
           {/* ================= RIGHT SUMMARY ================= */}
           <div className="order-1 w-full lg:w-[450px] lg:order-2">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8DCC8] lg:sticky lg:top-24">
-
               <h2 className="text-xl font-bold text-[#5C4A3A] mb-4">
                 Order summary
               </h2>
@@ -266,7 +300,6 @@ const Page = () => {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>

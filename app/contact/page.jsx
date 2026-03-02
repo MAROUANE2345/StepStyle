@@ -14,6 +14,49 @@ const Page = () => {
     message: "",
   });
 
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = () => {
+    let canSend = true;
+    const newErrors = {};
+
+    // Validation
+    if (!contactObject.name.trim()) {
+      newErrors.name = "You have to enter your name";
+      canSend = false;
+    }
+    if (!contactObject.email.trim()) {
+      newErrors.email = "You have to enter your email";
+      canSend = false;
+    } else if (!/\S+@\S+\.\S+/.test(contactObject.email)) {
+      newErrors.email = "Email format is invalid";
+      canSend = false;
+    }
+    if (!contactObject.subject.trim()) {
+      newErrors.subject = "You have to enter a subject";
+      canSend = false;
+    }
+    if (!contactObject.message.trim()) {
+      newErrors.message = "You have to enter a message";
+      canSend = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!canSend) return;
+
+    // Send email action
+    dispatch(sendEmailContact(contactObject));
+
+    // Clear form after sending
+    setContactObject({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF7F2] px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-16 md:py-20">
       <div className="mx-auto max-w-6xl">
@@ -39,11 +82,15 @@ const Page = () => {
                 <input
                   type="text"
                   placeholder="Your name"
-                  className="w-full rounded-lg border border-[#E6D9C8] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                  value={contactObject.name}
+                  className={`w-full rounded-lg border px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8] ${
+                    errors.name ? "border-red-500" : "border-[#E6D9C8]"
+                  }`}
                   onChange={(e) =>
                     setContactObject({ ...contactObject, name: e.target.value })
                   }
                 />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
 
               {/* Email */}
@@ -54,11 +101,15 @@ const Page = () => {
                 <input
                   type="email"
                   placeholder="your@email.com"
+                  value={contactObject.email}
                   onChange={(e) =>
                     setContactObject({ ...contactObject, email: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[#E6D9C8] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                  className={`w-full rounded-lg border px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8] ${
+                    errors.email ? "border-red-500" : "border-[#E6D9C8]"
+                  }`}
                 />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
 
               {/* Subject */}
@@ -69,11 +120,15 @@ const Page = () => {
                 <input
                   type="text"
                   placeholder="How can we help?"
+                  value={contactObject.subject}
                   onChange={(e) =>
                     setContactObject({ ...contactObject, subject: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[#E6D9C8] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                  className={`w-full rounded-lg border px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8] ${
+                    errors.subject ? "border-red-500" : "border-[#E6D9C8]"
+                  }`}
                 />
+                {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
               </div>
 
               {/* Message */}
@@ -84,16 +139,20 @@ const Page = () => {
                 <textarea
                   rows={5}
                   placeholder="Your message..."
+                  value={contactObject.message}
                   onChange={(e) =>
                     setContactObject({ ...contactObject, message: e.target.value })
                   }
-                  className="w-full resize-none rounded-lg border border-[#E6D9C8] px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8]"
+                  className={`w-full resize-none rounded-lg border px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base outline-none transition focus:border-[#8B7355] focus:ring-2 focus:ring-[#E6D9C8] ${
+                    errors.message ? "border-red-500" : "border-[#E6D9C8]"
+                  }`}
                 />
+                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </div>
 
               <button
-                onClick={() => dispatch(sendEmailContact(contactObject))}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#8B7355] py-3 text-sm sm:text-base font-semibold text-white transition hover:bg-[#7A6349] active:scale-[0.98]"
+                onClick={handleSubmit}
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#8B7355] py-3 text-sm sm:text-base font-semibold text-white transition hover:bg-[#7A6349] active:scale-[0.98]"
               >
                 <Send size={16} />
                 Send Message

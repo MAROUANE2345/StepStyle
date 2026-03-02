@@ -21,7 +21,7 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#6B5B4A]">

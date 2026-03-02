@@ -46,16 +46,16 @@ const LikedCard = ({ product }) => {
         <button
           type="button"
           onClick={() => router.push(`/detail/${product.id}`)}
-          className="flex-1 min-w-0 text-center text-[#8B7355] text-xs sm:text-sm font-medium py-2 rounded-lg border border-[#8B7355] transition-colors hover:bg-[#8B7355] hover:text-white"
+          className="flex-1 cursor-pointer min-w-0 text-center text-[#8B7355] text-xs sm:text-sm font-medium py-2 rounded-lg border border-[#8B7355] transition-colors hover:bg-[#8B7355] hover:text-white"
         >
           View
         </button>
         <button
           type="button"
-          className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#8B7355] hover:bg-[#7A6349] transition shrink-0"
+          className="w-9 cursor-pointer h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#8B7355] hover:bg-[#7A6349] transition shrink-0"
           onClick={() => dispatch(addToCart(product))}
         >
-          <FaShoppingCart className="text-white text-sm sm:text-base" />
+          <FaShoppingCart className="text-white cursor-pointer text-sm sm:text-base" />
         </button>
       </div>
     </div>

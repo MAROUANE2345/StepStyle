@@ -25,9 +25,9 @@ const DeletePopUp = ({ onClose,id}) => {
           </h2>
           <button
             onClick={onClose}
-            className="rounded-md p-1 hover:bg-[#e6dccf]"
+            className="rounded-md cursor-pointer p-1 hover:bg-[#e6dccf]"
           >
-            <FaTimes className="text-[#6b4f3b]" />
+            <FaTimes className="text-[#6b4f3b] cursor-pointer" />
           </button>
         </div>
 
@@ -44,14 +44,14 @@ const DeletePopUp = ({ onClose,id}) => {
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="rounded-md bg-[#e6dccf] px-4 py-2 text-sm font-medium text-[#6b4f3b] hover:bg-[#d6c8b6]"
+            className="rounded-md cursor-pointer bg-[#e6dccf] px-4 py-2 text-sm font-medium text-[#6b4f3b] hover:bg-[#d6c8b6]"
           >
             Cancel
           </button>
 
           <button
             onClick={()=>handleDelete(id)}
-            className="flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600"
+            className="flex cursor-pointer items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600"
           >
             <FaTrash />
             Delete

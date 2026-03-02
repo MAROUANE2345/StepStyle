@@ -14,7 +14,7 @@ const SideBar = ({ isOpen, onClose }) => {
   const activeLinkClasses =
     "flex items-center px-4 py-3 rounded-lg font-semibold bg-[#8B7355] text-white cursor-pointer transition-colors duration-200";
 
-  const links = [
+  const links = [      
     { name: "Add Product", path: "/admin/adminadd", icon: "➕" },
     { name: "Manage Products", path: "/admin/adminmanage", icon: "📦" },
     { name: "Orders", path: "/admin/adminorder", icon: "🛍️" },
@@ -43,7 +43,7 @@ const SideBar = ({ isOpen, onClose }) => {
   }, [isOpen, onClose]);
 
   const sidebarContent = (
-    <>
+    <div className="fixed left-0 top-0 h-full">
       <div className="flex items-center justify-between p-4 lg:justify-center lg:py-6 border-b border-[#E8DCC8]">
         <h1 className="text-xl lg:text-2xl font-extrabold text-[#5C4A3A]">
           StepStyle Admin
@@ -73,7 +73,7 @@ const SideBar = ({ isOpen, onClose }) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 
   return (

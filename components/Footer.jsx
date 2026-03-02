@@ -1,48 +1,96 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
+import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#FAF7F2] border-t border-[#E8DCC8] mt-12 safe-bottom">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-12 py-8 md:py-10 flex flex-col gap-8">
-        {/* Top row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
-          <div className="text-[#5C4A3A] font-bold text-xl sm:text-2xl tracking-wide">
-            Step<span className="text-[#8B7355]">Style</span>
-          </div>
-          <nav className="flex flex-wrap justify-center gap-6 sm:gap-8 text-sm sm:text-base font-medium text-[#5C4A3A]">
-            <Link href="/catalogue" className="hover:text-[#8B7355] transition-colors py-1">
-              Catalogue
-            </Link>
-            <Link href="/aboutus" className="hover:text-[#8B7355] transition-colors py-1">
-              About
-            </Link>
-            <Link href="/contact" className="hover:text-[#8B7355] transition-colors py-1">
-              Contact
-            </Link>
-            <Link href="/aihelp" className="hover:text-[#8B7355] transition-colors py-1">
-              AI Help
-            </Link>
-          </nav>
+    <footer className="bg-[#E8DFD6] text-[#5C4A3A] py-12 px-6 md:px-16">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+        {/* Logo + Description */}
+        <div>
+          <h2 className="text-xl font-semibold mb-2">StepStyle</h2>
+          <p className="text-sm text-[#7A6A58]">
+            Your destination for quality footwear for the whole family.
+          </p>
         </div>
 
-        {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#E8DCC8] text-xs sm:text-sm text-[#8B7355]">
-          <p className="text-center sm:text-left order-2 sm:order-1">
-            © {new Date().getFullYear()} StepStyle. All rights reserved.
-          </p>
-          <div className="flex gap-3 order-1 sm:order-2">
-            <a href="#" className="w-9 h-9 rounded-full border border-[#E8DCC8] flex items-center justify-center text-sm hover:border-[#8B7355] hover:text-[#8B7355] transition" aria-label="Facebook">f</a>
-            <a href="#" className="w-9 h-9 rounded-full border border-[#E8DCC8] flex items-center justify-center text-sm hover:border-[#8B7355] hover:text-[#8B7355] transition" aria-label="Twitter">t</a>
-            <a href="#" className="w-9 h-9 rounded-full border border-[#E8DCC8] flex items-center justify-center text-sm hover:border-[#8B7355] hover:text-[#8B7355] transition" aria-label="LinkedIn">in</a>
+        {/* Quick Links */}
+        <div>
+          <h3 className="font-semibold mb-3">Quick Links</h3>
+
+          <ul className="space-y-2 text-sm text-[#7A6A58]">
+
+            <li>
+              <Link href="/" className="hover:text-[#5C4A3A] transition">
+                Home
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/catalogue" className="hover:text-[#5C4A3A] transition">
+                Catalogue
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/aihelp" className="hover:text-[#5C4A3A] transition">
+                AI Help
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/contact" className="hover:text-[#5C4A3A] transition">
+                Contact Us
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/aboutus" className="hover:text-[#5C4A3A] transition">
+                About Us
+              </Link>
+            </li>
+
+          </ul>
+        </div>
+
+        {/* Our Principles (NOT links) */}
+        <div>
+          <h3 className="font-semibold mb-3">Our Principles</h3>
+
+          <ul className="space-y-2 text-sm text-[#7A6A58]">
+
+            <li>Quality First</li>
+            <li>Customer Satisfaction</li>
+            <li>Honest Pricing</li>
+            <li>Fast & Reliable Delivery</li>
+            <li>Secure Shopping</li>
+            <li>Respect & Transparency</li>
+
+          </ul>
+        </div>
+
+        {/* Follow Us */}
+        <div>
+          <h3 className="font-semibold mb-3">Follow Us</h3>
+
+          <div className="flex gap-4 text-lg text-[#7A6A58]">
+            <span className="hover:text-[#5C4A3A] cursor-pointer">f</span>
+            <span className="hover:text-[#5C4A3A] cursor-pointer">ig</span>
+            <span className="hover:text-[#5C4A3A] cursor-pointer">tw</span>
           </div>
         </div>
+
       </div>
+
+      {/* Bottom line */}
+      <div className="border-t border-[#D3C5B7] mt-10 pt-4 text-center text-sm text-[#7A6A58]">
+        © 2026 StepStyle. All rights reserved.
+      </div>
+
     </footer>
   );
 };
 
 export default Footer;
-

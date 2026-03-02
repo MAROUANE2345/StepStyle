@@ -7,8 +7,7 @@ const AdminOrderCard = ({
   phone,
   city,
   address,
-  img,
-  orderInfo = [],
+  orderInfo,
   totalPrice,
 }) => {
   const [open, setOpen] = useState(false);
@@ -28,7 +27,7 @@ const AdminOrderCard = ({
         {/* RIGHT */}
         <button
           onClick={() => setOpen(true)}
-          className="h-11 w-full md:w-auto px-6 bg-[#8B7355] text-white rounded-lg font-semibold hover:bg-[#7A6349] active:scale-95 transition"
+          className="h-11 cursor-pointer w-full md:w-auto px-6 bg-[#8B7355] text-white rounded-lg font-semibold hover:bg-[#7A6349] active:scale-95 transition"
         >
           View Order
         </button>
@@ -43,7 +42,7 @@ const AdminOrderCard = ({
             {/* CLOSE BUTTON */}
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-red-50 text-[#5C4A3A] hover:text-red-500 text-xl font-bold transition shadow"
+              className="absolute cursor-pointer top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-red-50 text-[#5C4A3A] hover:text-red-500 text-xl font-bold transition shadow"
             >
               ✕
             </button>

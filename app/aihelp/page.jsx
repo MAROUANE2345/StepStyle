@@ -76,7 +76,7 @@ const Page = () => {
             type="button"
             onClick={handleSearch}
             disabled={loading}
-            className="h-12 sm:h-[52px] px-6 bg-[#8B7355] text-white rounded-xl font-medium hover:bg-[#7A6349] disabled:opacity-50 transition shrink-0"
+            className="h-12 sm:h-[52px] cursor-pointer px-6 bg-[#8B7355] text-white rounded-xl font-medium hover:bg-[#7A6349] disabled:opacity-50 transition shrink-0"
           >
             Search
           </button>

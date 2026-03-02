@@ -77,9 +77,8 @@ const Page = () => {
               <button
                 key={btn}
                 type="button"
-                className={`px-4 sm:px-5 h-11 sm:h-[52px] font-medium rounded-xl transition-colors duration-200 cursor-pointer text-sm sm:text-base ${
-                  filter === btn ? "bg-[#8B7355] text-white shadow-md" : "bg-[#EFE6DA] text-[#5C4A3A] hover:bg-[#E8DCC8]"
-                }`}
+                className={`px-4 sm:px-5 h-11 sm:h-[52px] font-medium rounded-xl transition-colors duration-200 cursor-pointer text-sm sm:text-base ${filter === btn ? "bg-[#8B7355] text-white shadow-md" : "bg-[#EFE6DA] text-[#5C4A3A] hover:bg-[#E8DCC8]"
+                  }`}
                 onClick={() => setFilter(btn)}
               >
                 {btn}

@@ -22,17 +22,17 @@ const Page = () => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const initialFilterFromQuery = searchParams.get("filter");
-  const allowedFilters = ["All", "Men", "Women", "Kids"];
-  const normalizedInitialFilter = allowedFilters.includes(initialFilterFromQuery)
-    ? initialFilterFromQuery
-    : "All";
+  // const allowedFilters = ["All", "Men", "Women", "Kids"];
+  // const normalizedInitialFilter = allowedFilters.includes(initialFilterFromQuery)
+  //   ? initialFilterFromQuery
+  //   : "All";
 
-  const [filter, setFilter] = useState(normalizedInitialFilter);
+  const [filter, setFilter] = useState(initialFilterFromQuery);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [dispatch]);
+  }, []);
 
   const filteredProducts = products.filter((product) => {
     let matchesFilter = true;
@@ -93,11 +93,10 @@ const Page = () => {
               <button
                 key={btn}
                 type="button"
-                className={`px-4 sm:px-5 h-11 sm:h-[52px] font-medium rounded-xl transition-colors duration-200 cursor-pointer text-sm sm:text-base ${
-                  filter === btn
+                className={`px-4 sm:px-5 h-11 sm:h-[52px] font-medium rounded-xl transition-colors duration-200 cursor-pointer text-sm sm:text-base ${filter === btn
                     ? "bg-[#8B7355] text-white shadow-md"
                     : "bg-[#EFE6DA] text-[#5C4A3A] hover:bg-[#E8DCC8]"
-                }`}
+                  }`}
                 onClick={() => setFilter(btn)}
               >
                 {btn}

@@ -27,11 +27,11 @@ const Page = () => {
   }, [id]);
 
   useEffect(() => {
-  if (shoe && wishList) {
-    const isLiked = wishList.find((item) => item.id === shoe.id);
-    setLiked(!!isLiked);
-  }
-}, [wishList, shoe?.id]);
+    if (shoe && wishList) {
+      const isLiked = wishList.find((item) => item.id === shoe.id);
+      setLiked(!!isLiked);
+    }
+  }, [wishList, shoe?.id]);
 
   if (loading) {
     return (
@@ -51,15 +51,15 @@ const Page = () => {
     );
   }
 
-    const handleLike = () => {
-        setLiked(!liked);
-        if(liked == true){
-            dispatch(deleteFromLiked(shoe));
-        }else if(liked == false){
-            dispatch(addToWishList(shoe));
-        }
-        
-      };
+  const handleLike = () => {
+    setLiked(!liked);
+    if (liked == true) {
+      dispatch(deleteFromLiked(shoe));
+    } else if (liked == false) {
+      dispatch(addToWishList(shoe));
+    }
+
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FAF7F2] to-[#EFE6D8] px-4 sm:px-6 py-6 sm:py-10 md:py-16 flex justify-center items-start">
@@ -74,9 +74,8 @@ const Page = () => {
           <button
             type="button"
             onClick={handleLike}
-            className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-11 h-11 sm:w-12 sm:h-12 flex justify-center items-center rounded-full border shadow-md transition hover:scale-110 ${
-              liked ? "bg-red-500 text-white border-red-500" : "bg-white text-[#7A6A58] border-[#E6D9C8] hover:bg-[#F6EFE6]"
-            }`}
+            className={`absolute cursor-pointer top-3 right-3 sm:top-4 sm:right-4 w-11 h-11 sm:w-12 sm:h-12 flex justify-center items-center rounded-full border shadow-md transition hover:scale-110 ${liked ? "bg-red-500 cursor-pointer text-white border-red-500" : "bg-white text-[#7A6A58] border-[#E6D9C8] hover:bg-[#F6EFE6]"
+              }`}
           >
             <FaHeart size={18} />
           </button>
@@ -104,7 +103,7 @@ const Page = () => {
           <button
             type="button"
             onClick={() => dispatch(addToCart(shoe))}
-            className="w-full md:w-auto px-6 py-3.5 bg-[#8B7355] hover:bg-[#7A6349] text-white rounded-xl font-medium flex items-center justify-center gap-2 transition hover:opacity-95 active:scale-[0.98]"
+            className="w-full cursor-pointer md:w-auto px-6 py-3.5 bg-[#8B7355] hover:bg-[#7A6349] text-white rounded-xl font-medium flex items-center justify-center gap-2 transition hover:opacity-95 active:scale-[0.98]"
           >
             <FaShoppingCart size={18} /> Add to Cart
           </button>

@@ -3,16 +3,16 @@
 import AdminOrderCard from "@/components/AdminOrderCard";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
+import { fetchOrders } from "@/lib/reducer/orderSlice";
 const Page = () => {
-  const [orders, setOrders] = useState([]);
-
   useEffect(() => {
-    axios
-      .get("https://69733ee0b5f46f8b58269eb8.mockapi.io/order")
-      .then((res) => setOrders(res.data))
-      .catch((err) => console.error("Failed to fetch orders:", err));
-  }, []); // ✅ Add empty dependency array to run once
+    dispatch(fetchOrders())
+  }, []);
+  const orders = useSelector((state) => state.order.orders)
+  const dispatch = useDispatch();
+
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -42,7 +42,7 @@ const Page = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center h-[200px] sm:h-[300px] text-[#8B7355] text-center">
-          No orders found.
+          Loading Orders...
         </div>
       )}
     </div>

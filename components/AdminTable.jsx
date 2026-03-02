@@ -31,23 +31,7 @@ const AdminTable = ({ products }) => {
     setSelectedProduct(product);
   };
 
-  // ✅ REMOVE PRODUCT INSTANTLY FROM UI
-  const handleDeleteSuccess = (deletedId) => {
-    setLocalProducts(prev =>
-      prev.filter(product => product.id !== deletedId)
-    );
-    setDeletePopUp(false);
-  };
 
-  // ✅ UPDATE PRODUCT INSTANTLY IN UI
-  const handleEditSuccess = (updatedProduct) => {
-    setLocalProducts(prev =>
-      prev.map(product =>
-        product.id === updatedProduct.id ? updatedProduct : product
-      )
-    );
-    setEditPopUp(false);
-  };
 
   const sizeStr = (product) =>
     Array.isArray(product.size)
@@ -144,16 +128,16 @@ const AdminTable = ({ products }) => {
 
                     <button
                       onClick={() => handleEditOnClick(product)}
-                      className="bg-[#8B7355] p-2 rounded-lg hover:bg-[#7A6349]"
+                      className="bg-[#8B7355] cursor-pointer p-2 rounded-lg hover:bg-[#7A6349]"
                     >
-                      <FaEdit className="text-white" /> 
+                      <FaEdit className="text-white cursor-pointer" /> 
                     </button>
 
                     <button
                       onClick={() => handleDeleteOnclick(product.id)}
-                      className="bg-red-500 p-2 rounded-lg hover:bg-red-600"
+                      className="bg-red-500 cursor-pointer p-2 rounded-lg hover:bg-red-600"
                     >
-                      <FaTrash className="text-white" /> 
+                      <FaTrash className="text-white cursor-pointer" /> 
                     </button>
 
                   </div>
@@ -171,7 +155,7 @@ const AdminTable = ({ products }) => {
         <DeletePopUp
           id={id}
           onClose={stopPopUp}
-          onDeleteSuccess={handleDeleteSuccess} // ✅ IMPORTANT
+     
         />
       )}
 
@@ -179,7 +163,7 @@ const AdminTable = ({ products }) => {
         <EditPopUp
           product={selectedProduct}
           onClose={stopEditPopUp}
-          onEditSuccess={handleEditSuccess} // ✅ IMPORTANT
+        
         />
       )}
     </>

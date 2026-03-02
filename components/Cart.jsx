@@ -44,7 +44,7 @@ const Cart = () => {
               <h2 className="text-base sm:text-lg font-bold text-[#5C4A3A]">
                 Shopping Cart
               </h2>
-              <button type="button" onClick={() => dispatch(handleCart())} className="p-2 -m-2 rounded-lg hover:bg-[#FAF7F2] text-[#5C4A3A]">
+              <button type="button" onClick={() => dispatch(handleCart())} className="p-2 cursor-pointer -m-2 rounded-lg hover:bg-[#FAF7F2] text-[#5C4A3A]">
                 <FaTimes size={20} />
               </button>
             </div>
@@ -74,16 +74,16 @@ const Cart = () => {
                         ${product.price}
                       </p>
                       <div className="flex items-center gap-2 mt-2">
-                        <button type="button" onClick={() => dispatch(dec(product))} className="w-8 h-8 rounded-lg bg-white border border-[#E8DCC8] font-bold text-[#5C4A3A] hover:bg-[#FAF7F2] transition">
+                        <button type="button" onClick={() => dispatch(dec(product))} className="w-8 h-8 cursor-pointer rounded-lg bg-white border border-[#E8DCC8] font-bold text-[#5C4A3A] hover:bg-[#FAF7F2] transition">
                           −
                         </button>
                         <span className="font-medium text-sm w-6 text-center">{product.quantity}</span>
-                        <button type="button" onClick={() => dispatch(inc(product))} className="w-8 h-8 rounded-lg bg-white border border-[#E8DCC8] font-bold text-[#5C4A3A] hover:bg-[#FAF7F2] transition">
+                        <button type="button" onClick={() => dispatch(inc(product))} className="w-8 cursor-pointer h-8 rounded-lg bg-white border border-[#E8DCC8] font-bold text-[#5C4A3A] hover:bg-[#FAF7F2] transition">
                           +
                         </button>
                       </div>
                     </div>
-                    <button type="button" onClick={() => dispatch(deleteFromCart(product.id))} className="absolute bottom-3 right-3 p-1.5 rounded-lg hover:bg-red-100 text-red-600 transition">
+                    <button type="button" onClick={() => dispatch(deleteFromCart(product.id))} className="absolute cursor-pointer bottom-3 right-3 p-1.5 rounded-lg hover:bg-red-100 text-red-600 transition">
                       <FaTrash size={14} />
                     </button>
                   </div>
@@ -97,7 +97,7 @@ const Cart = () => {
                 <span className="font-bold text-[#5C4A3A] text-sm sm:text-base">Total</span>
                 <span className="font-extrabold text-[#8B7355] text-lg sm:text-xl">{total} $</span>
               </div>
-              <button type="button" onClick={goToOrder} className="w-full h-12 rounded-xl bg-[#8B7355] hover:bg-[#7A6349] text-white font-bold text-sm sm:text-base transition">
+              <button type="button" onClick={goToOrder} className="w-full cursor-pointer h-12 rounded-xl bg-[#8B7355] hover:bg-[#7A6349] text-white font-bold text-sm sm:text-base transition">
                 Proceed to Checkout
               </button>
             </div>

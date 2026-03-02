@@ -216,7 +216,7 @@ const Page = () => {
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="w-full md:w-auto px-10 py-4 text-white font-semibold rounded-lg"
+                            className="w-full cursor-pointer md:w-auto px-10 py-4 text-white font-semibold rounded-lg"
                             style={{ backgroundColor: loading ? '#BFA78A' : '#8B7355' }}
                         >
                             {loading ? 'Adding...' : 'Add Product'}
